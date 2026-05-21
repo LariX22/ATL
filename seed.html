@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seed Firebase - Aliança TL</title>
+<style>
+body{font-family:Arial;background:#070707;color:#fff;padding:30px}
+button{background:#d20b12;color:#fff;border:0;border-radius:8px;padding:14px 18px;font-weight:bold;cursor:pointer}
+pre{background:#111;border:1px solid #333;padding:15px;border-radius:8px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<h1>Popular Firebase - Aliança TL</h1>
+<p>Clique no botão para criar dados iniciais no Firestore.</p>
+<button id="seedBtn">Criar dados iniciais</button>
+<pre id="log">Aguardando...</pre>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, doc, setDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const log = document.getElementById("log");
+
+function line(msg){ log.textContent += "\n" + msg; }
+
+document.getElementById("seedBtn").addEventListener("click", async () => {
+  log.textContent = "Criando dados no Firestore...";
+
+  try {
+    await setDoc(doc(db, "cargas", "AL-1001"), {
+      codigo: "AL-1001",
+      cliente: "Posto Petrobras, Tanabi",
+      origem: "Agulha, Posto Petrobras",
+      destino: "Tanabi, Posto Petrobras",
+      status: "Em trânsito",
+      motorista: "LarissaR27",
+      nfe: "788977",
+      cte: "202462805",
+      carga: "Reboque vazio, 5T",
+      frete: 5344,
+      criadoEm: serverTimestamp(),
+      fonte: "seed"
+    });
+    line("✓ Carga AL-1001 criada");
+
+    await setDoc(doc(db, "motoristas", "LarissaR27"), {
+      nome: "LarissaR27",
+      cargo: "Motorista",
+      categoria: "Motorista",
+      modo: "Realista",
+      pontos: 120,
+      status: "Ativo",
+      discord: "LarissaR27 I Aliança TL",
+      criadoEm: serverTimestamp(),
+      fonte: "seed"
+    });
+    line("✓ Motorista LarissaR27 criado");
+
+    await setDoc(doc(db, "notas", "788977"), {
+      numero: "788977",
+      serie: "001",
+      carga: "AL-1001",
+      cte: "202462805",
+      cliente: "Posto Petrobras, Tanabi",
+      valor: 5344,
+      chave: "0566 5489 6567 1314 1770 3972 0929 5976 5013 7466 3397",
+      protocolo: "3202674982049055",
+      criadoEm: serverTimestamp(),
+      fonte: "seed"
+    });
+    line("✓ NF-e virtual 788977 criada");
+
+    await addDoc(collection(db, "ocorrencias"), {
+      carga: "AL-1001",
+      descricao: "Carga em andamento sem ocorrência.",
+      status: "Resolvida",
+      criadoEm: serverTimestamp(),
+      fonte: "seed"
+    });
+    line("✓ Ocorrência exemplo criada");
+
+    await addDoc(collection(db, "comboios"), {
+      nome: "Comboio Aliança TL - Rota de Integração",
+      rota: "Cascavel/PR > Goiânia/GO",
+      status: "Agendado",
+      criadoEm: serverTimestamp(),
+      fonte: "seed"
+    });
+    line("✓ Comboio exemplo criado");
+
+    line("\nPRONTO! Agora volte ao site principal e atualize a página.");
+  } catch (err) {
+    console.error(err);
+    line("\nERRO: " + err.message);
+    line("\nSe aparecer PERMISSION_DENIED, o Firestore não está em modo teste ou as regras estão bloqueando escrita.");
+  }
+});
+</script>
+</body>
+</html>
