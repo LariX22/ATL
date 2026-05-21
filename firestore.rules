@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /cargas/{doc} { allow read: if true; allow write: if request.auth != null; }
+    match /motoristas/{doc} { allow read: if true; allow write: if request.auth != null; }
+    match /notas/{doc} { allow read: if true; allow write: if request.auth != null; }
+    match /ocorrencias/{doc} { allow read: if true; allow write: if request.auth != null; }
+    match /comboios/{doc} { allow read: if true; allow write: if request.auth != null; }
+  }
+}
