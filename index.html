@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aliança TL | Painel Integrado</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <img src="assets/logo.png" alt="Aliança TL">
+  <div>
+    <h1>Aliança Transportes Logística</h1>
+    <p>Painel preparado para Firebase + Discord + VTLOG</p>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <h2>Central em tempo real</h2>
+  <p>Quando o Firebase estiver configurado, cargas, motoristas, ranking, notas virtuais, ocorrências e comboios atualizam automaticamente.</p>
+  <div class="grid">
+    <div class="card"><b id="totalCargas">0</b><span>Cargas</span></div>
+    <div class="card"><b id="totalMotoristas">0</b><span>Motoristas</span></div>
+    <div class="card"><b id="totalNotas">0</b><span>Notas virtuais</span></div>
+    <div class="card"><b id="totalOcorrencias">0</b><span>Ocorrências</span></div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>Rastreamento</h2>
+  <form id="trackForm">
+    <input id="trackCode" placeholder="Digite AL-1001, NFV-1001 ou CT-e" required>
+    <button>Rastrear</button>
+  </form>
+  <div id="trackResult"></div>
+</section>
+
+<section class="panel">
+  <h2>Últimas cargas</h2>
+  <div id="cargoList" class="list"></div>
+</section>
+
+<section class="panel">
+  <h2>Ranking dos motoristas</h2>
+  <div id="rankingList" class="list"></div>
+</section>
+
+<section class="panel">
+  <h2>Comandos Discord preparados</h2>
+  <code>/carga criar</code>
+  <code>/ranking</code>
+  <code>/nfe emitir</code>
+  <code>/abastecimento</code>
+  <code>/ocorrencia</code>
+  <code>/comboio criar</code>
+  <code>/promover</code>
+</section>
+</main>
+
+<script type="module" src="firebase-config.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
